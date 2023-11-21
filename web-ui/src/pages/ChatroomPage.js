@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
+import moment from 'moment'
 
 const ChatroomPage = ({socket}) => {
 	console.log(socket, 'coba ')
@@ -87,9 +88,9 @@ const ChatroomPage = ({socket}) => {
 					})
 				}
 			}
-		} else{
-      navigate("/dashboard")
-    }
+		} else {
+			navigate('/dashboard')
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 	return (
@@ -98,12 +99,15 @@ const ChatroomPage = ({socket}) => {
 				<div className='cardHeader'>{chatroom.name}</div>
 				<div className='chatroomContent'>
 					{messages.map((message, index) => (
-						<div key={index} className='message'>
-							<span className={userId === message.user._id ? 'ownMessage' : 'otherMessage'}>
-								{message.user.name}
-								{': '}
-							</span>
-							{message.message}
+						<div>
+							{dateHeader(message, messages[index - 1])}
+							<div key={index} className='message'>
+								<span className={userId === message.user._id ? 'ownMessage' : 'otherMessage'}>
+									{message.user.name}
+									{': '}
+								</span>
+								{message.message}
+							</div>
 						</div>
 					))}
 				</div>
@@ -126,4 +130,14 @@ const ChatroomPage = ({socket}) => {
 	)
 }
 
+const dateHeader = (curr, prev) => {
+	if (!curr || !prev) return <div></div>
+	const currDay = moment(curr.createdAt).format('ddd')
+	const prevDay = moment(prev.createdAt).format('ddd')
+	if (currDay !== prevDay) {
+		return <div>{currDay}</div>
+	} else {
+		return <div></div>
+	}
+}
 export default ChatroomPage
