@@ -10,6 +10,7 @@ app.use(require('cors')())
 app.use('/user', require('./routes/user'))
 app.use('/chatroom', require('./routes/chatroom'))
 app.use('/message', require('./routes/message'))
+app.use('/associatedRooms', require('./routes/associatedChatroom'))
 
 // setup error handler
 const errorHandlers = require('./handlers/error-handlers')

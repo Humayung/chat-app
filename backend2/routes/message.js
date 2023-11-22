@@ -4,4 +4,5 @@ const messageController = require('../controllers/message.controller')
 const auth = require("../middlewares/auth")
 
 router.get('/', auth, catchErrors(messageController.getMessages))
+router.post('/', auth, catchErrors(messageController.postMessage))
 module.exports = router

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+const helper = require('../utils/helper')
 const Chatroom = mongoose.model('Chatroom')
+
 
 exports.createChatroom = async (req, res) => {
 	const {name} = req.body
@@ -25,7 +27,7 @@ exports.createChatroom = async (req, res) => {
 exports.getChatroom = async (req, res) => {
 	const {chatroomId} = req.params
 	const chatroom = await Chatroom.findById(chatroomId)
-	if(!chatroom) throw "Chatroom not found"
+	if (!chatroom) throw 'Chatroom not found'
 	res.json(chatroom)
 }
 
@@ -33,3 +35,4 @@ exports.getAllChatroom = async (req, res) => {
 	const chatrooms = await Chatroom.find({})
 	res.json(chatrooms)
 }
+
