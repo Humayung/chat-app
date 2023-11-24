@@ -1,11 +1,10 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const Message = mongoose.model('Message')
-const User = mongoose.model('User')
 const AssociatedChatroom = mongoose.model('AssociatedChatroom')
-const helper = require('../utils/helper')
-const messageSocket = require('../messageSocket')
+import helper from '../utils/helper.js'
+import messageSocket from '../messageSocket.js'
 
-exports.getMessages = async (req, res) => {
+const getMessages = async (req, res) => {
 	const {chatroomId} = req.query
 	if (!chatroomId) throw 'Chatroom id is required'
 	const messages = await Message.find({chatroom: chatroomId})
@@ -14,7 +13,7 @@ exports.getMessages = async (req, res) => {
 	res.json(messages)
 }
 
-exports.postMessage = async (req, res) => {
+const postMessage = async (req, res) => {
 	const {message, chatroomId} = req.body
 	const {authorization} = req.headers
 	if (message.trim().length === 0) throw 'message cannot be empty'
@@ -43,3 +42,5 @@ exports.postMessage = async (req, res) => {
 		message: 'message sent'
 	})
 }
+
+export default {getMessages, postMessage}

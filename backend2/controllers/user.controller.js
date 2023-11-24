@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const User = mongoose.model('User')
-const sha256 = require('js-sha256')
-const jwt = require('jwt-then')
 
-exports.register = async (req, res) => {
+import { sha256 } from 'js-sha256'
+import jwt from 'jwt-then'
+
+const register = async (req, res) => {
 	const {name, email, password} = req.body
 	const emailRegex = /@gmail.com|yahoo.com|hotmail.com|@live.com/
 	if (!emailRegex.test(email)) throw 'Email is not supported from your domain'
@@ -24,7 +25,7 @@ exports.register = async (req, res) => {
 	})
 }
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
 	const {email, password} = req.body
 	const user = await User.findOne({
 		email,
@@ -37,3 +38,5 @@ exports.login = async (req, res) => {
 		token
 	})
 }
+
+export default {register, login}

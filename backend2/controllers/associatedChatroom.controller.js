@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
-const helper = require('../utils/helper')
+import mongoose from 'mongoose'
+import helper from '../utils/helper.js'
 const AssociatedChatroom = mongoose.model('AssociatedChatroom')
 
-exports.getAssociatedChatrooms = async (req, res) => {
+const getAssociatedChatrooms = async (req, res) => {
 	const {authorization} = req.headers
 	const decodedToken = await helper.decodeToken(authorization)
 	const userId = decodedToken.id
@@ -14,7 +14,7 @@ exports.getAssociatedChatrooms = async (req, res) => {
 	}
 }
 
-exports.getAssociatedUsers = async (req, res) => {
+const getAssociatedUsers = async (req, res) => {
 	const {chatroomId} = req.params
 	if (!chatroomId) throw 'Chatroom ID is required'
 	try {
@@ -24,3 +24,5 @@ exports.getAssociatedUsers = async (req, res) => {
 		throw err.message
 	}
 }
+
+export default {getAssociatedChatrooms, getAssociatedUsers}

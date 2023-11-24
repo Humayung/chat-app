@@ -1,8 +1,11 @@
-const router = require('express').Router()
-const {catchErrors} = require('../handlers/error-handlers')
-const messageController = require('../controllers/message.controller')
-const auth = require("../middlewares/auth")
+import { Router } from 'express';
+import {catchErrors} from '../handlers/error-handlers.js';
+import messageController from '../controllers/message.controller.js';
+import auth from '../middlewares/auth.js';
 
-router.get('/', auth, catchErrors(messageController.getMessages))
-router.post('/', auth, catchErrors(messageController.postMessage))
-module.exports = router
+const router = Router();
+
+router.get('/', auth, catchErrors(messageController.getMessages));
+router.post('/', auth, catchErrors(messageController.postMessage));
+
+export default router;

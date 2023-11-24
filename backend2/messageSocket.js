@@ -1,10 +1,11 @@
-const socketIo = require('socket.io')
-const jwt = require('jwt-then')
+/* eslint-disable */
+import {Server} from 'socket.io'
+import jwt from 'jwt-then'
 let socket
 
-module.exports = {
+export default  {
 	init: httpServer => {
-		socket = socketIo(httpServer, {
+		socket = new Server(httpServer, {
 			cors: {
 				origin: '*'
 			}

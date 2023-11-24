@@ -1,8 +1,11 @@
-const router = require('express').Router()
-const {catchErrors} = require('../handlers/error-handlers')
-const associatedChatroomController = require('../controllers/associatedChatroom.controller')
-const auth = require("../middlewares/auth")
+import { Router } from 'express';
+import {catchErrors} from '../handlers/error-handlers.js';
+import associatedChatroomController from '../controllers/associatedChatroom.controller.js';
+import auth from '../middlewares/auth.js';
 
-router.get('/chatrooms', auth, catchErrors(associatedChatroomController.getAssociatedChatrooms))
-router.get('/users/:chatroomId', auth, catchErrors(associatedChatroomController.getAssociatedUsers))
-module.exports = router
+const router = Router();
+
+router.get('/chatrooms', auth, catchErrors(associatedChatroomController.getAssociatedChatrooms));
+router.get('/users/:chatroomId', auth, catchErrors(associatedChatroomController.getAssociatedUsers));
+
+export default router;

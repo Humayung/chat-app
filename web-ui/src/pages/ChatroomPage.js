@@ -1,26 +1,33 @@
 import axios from 'axios'
 import React from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import moment from 'moment'
+import makeToast from '../Toaster'
 
 const ChatroomPage = ({socket}) => {
-	console.log(socket, 'coba ')
 	const params = useParams()
 	const [messages, setMessages] = React.useState([])
 	const [chatroom, setChatroom] = React.useState([])
 	const [userId, setUserId] = React.useState('')
 	const messageRef = React.useRef()
-	const navigate = useNavigate()
 	const chatroomId = params.id
 	const sendMessage = () => {
-		if (socket) {
-			console.log(`sent: ${messageRef.current.value}`)
-			socket.emit('chatroomMessage', {
-				chatroomId: chatroomId,
-				message: messageRef.current.value
-			})
-			messageRef.current.value = ''
+		const data = {
+			chatroomId: chatroomId,
+			message: messageRef.current.value
 		}
+		axios
+			.post(`http://localhost:8000/message`, data, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('CHAT_TOKEN')}`
+				}
+			})
+			.then(() => {
+				messageRef.current.value = ''
+			})
+			.catch(err => {
+				makeToast('error', err.response.data.message)
+			})
 	}
 
 	const getChatroom = () => {
@@ -49,6 +56,7 @@ const ChatroomPage = ({socket}) => {
 				}
 			})
 			.then(response => {
+				console.log(response.data)
 				setMessages(response.data)
 			})
 			.catch(err => {
@@ -65,8 +73,11 @@ const ChatroomPage = ({socket}) => {
 			}
 			if (socket) {
 				socket.on('newMessage', message => {
-					console.log(message)
 					setMessages([message, ...messages])
+					console.log(message.user._id, userId, message.message, message.user._id !== userId)
+					if (userId.length > 0 && message.user._id !== userId) {
+						makeToast('info', `New message from ${message.user.name}: ${message.message}`)
+					}
 				})
 			}
 		}
@@ -75,8 +86,9 @@ const ChatroomPage = ({socket}) => {
 
 	React.useEffect(() => {
 		getChatroom()
+		getMessages()
+		console.log('socket', socket)
 		if (socket) {
-			getMessages()
 			socket.emit('joinRoom', {
 				chatroomId
 			})
@@ -88,11 +100,9 @@ const ChatroomPage = ({socket}) => {
 					})
 				}
 			}
-		} else {
-			navigate('/dashboard')
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [socket])
 	return (
 		<div className='chatroomPage'>
 			<div className='chatroomSection'>

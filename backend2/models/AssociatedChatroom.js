@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose"
 
 const associatedChatroomSchema = new mongoose.Schema(
 	{
@@ -18,4 +18,4 @@ const associatedChatroomSchema = new mongoose.Schema(
 	}
 )
 
-module.exports = mongoose.model('AssociatedChatroom', associatedChatroomSchema)
+export default mongoose.model('AssociatedChatroom', associatedChatroomSchema)

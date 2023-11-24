@@ -1,9 +1,8 @@
-const mongoose = require('mongoose')
-const helper = require('../utils/helper')
+import mongoose from 'mongoose'
 const Chatroom = mongoose.model('Chatroom')
 
 
-exports.createChatroom = async (req, res) => {
+const createChatroom = async (req, res) => {
 	const {name} = req.body
 
 	const nameRegex = /^[A-Za-z\s]+/
@@ -24,15 +23,18 @@ exports.createChatroom = async (req, res) => {
 	})
 }
 
-exports.getChatroom = async (req, res) => {
+const getChatroom = async (req, res) => {
 	const {chatroomId} = req.params
 	const chatroom = await Chatroom.findById(chatroomId)
 	if (!chatroom) throw 'Chatroom not found'
 	res.json(chatroom)
 }
 
-exports.getAllChatroom = async (req, res) => {
+const getAllChatroom = async (req, res) => {
 	const chatrooms = await Chatroom.find({})
 	res.json(chatrooms)
 }
 
+
+
+export default {createChatroom, getChatroom, getAllChatroom}
