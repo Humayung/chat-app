@@ -7,6 +7,7 @@ const catchErrors = (fn) => {
         })
       }else{
         next(err)
+		err
       }
     })
   }
@@ -30,11 +31,16 @@ const developmentErrors = (err, req, res, next) => {
 		status: err.status,
 		stack: err.stack
 	}
+	res.status(err.status || 500).json({
+		error: errorDetails
+	})
 }
 
 const productionErrors = (err, req, res, next) => {
+	console.log(err)
 	res.status(err.status || 500).json({
-		error: 'Internal server error'
+		error: 'Internal server error',
+		message: err.message
 	})
 }
 

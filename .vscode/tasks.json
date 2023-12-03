@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"path": "mobile-ui",
+			"problemMatcher": [],
+			"label": "npm: start - mobile-ui",
+			"detail": "expo start",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

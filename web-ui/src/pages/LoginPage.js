@@ -3,6 +3,7 @@ import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import makeToast from '../Toaster'
 
+
 const LoginPage = ({setupSocket}) => {
 	const emailRef = React.createRef()
 	const passwordRef = React.createRef()
@@ -58,5 +59,4 @@ const LoginPage = ({setupSocket}) => {
 		</div>
 	)
 }
-
 export default LoginPage

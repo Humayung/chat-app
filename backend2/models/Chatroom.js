@@ -6,6 +6,10 @@ const chatRoomScema = new mongoose.Schema(
 			type: String,
 			required: 'Name is required'
 		},
+		isPrivate: {
+			type: Boolean,
+			default: false 
+		}
 	},
 	{
 		timestamps: true

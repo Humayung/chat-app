@@ -7,17 +7,20 @@ const RegisterPage = props => {
 	const nameRef = React.createRef()
 	const emailRef = React.createRef()
 	const passwordRef = React.createRef()
+	const usernameRef = React.createRef()
 	const navigate = useNavigate()
 
 	const registerUser = () => {
 		const name = nameRef.current.value
 		const email = emailRef.current.value
+		const username = usernameRef.current.value
 		const password = passwordRef.current.value
 		axios
 			.post('http://localhost:8000/user/register', {
 				name,
 				email,
-				password
+				password,
+				username
 			})
 			.then(response => {
 				console.log(response.data)
@@ -34,8 +37,12 @@ const RegisterPage = props => {
 			<div className='cardHeader'>Registration</div>
 			<div className='cardBody'>
 				<div className='inputGroup'>
-					<label htmlFor='name'>name</label>
+					<label htmlFor='name'>Name</label>
 					<input type='name' name='name' id='name' placeholder='your name' ref={nameRef} />
+				</div>
+				<div className='inputGroup'>
+					<label htmlFor='username'>Username</label>
+					<input type='username' name='username' id='username' placeholder='your username' ref={usernameRef} />
 				</div>
 				<div className='inputGroup'>
 					<label htmlFor='email'>Email</label>

@@ -26,7 +26,7 @@ const ChatroomPage = ({socket}) => {
 				messageRef.current.value = ''
 			})
 			.catch(err => {
-				makeToast('error', err.response.data.message)
+				makeToast('error', err.response.data?.message)
 			})
 	}
 
@@ -74,7 +74,7 @@ const ChatroomPage = ({socket}) => {
 			if (socket) {
 				socket.on('newMessage', message => {
 					setMessages([message, ...messages])
-					console.log(message.user._id, userId, message.message, message.user._id !== userId)
+					console.log(message)
 					if (userId.length > 0 && message.user._id !== userId) {
 						makeToast('info', `New message from ${message.user.name}: ${message.message}`)
 					}
@@ -83,6 +83,17 @@ const ChatroomPage = ({socket}) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages])
+
+	const dateHeader = (curr, prev) => {
+		if (!curr || !prev) return <div></div>
+		const currDay = moment(curr.createdAt).format('ddd')
+		const prevDay = moment(prev.createdAt).format('ddd')
+		if (currDay !== prevDay) {
+			return <div>{currDay}</div>
+		} else {
+			return <div></div>
+		}
+	}
 
 	React.useEffect(() => {
 		getChatroom()
@@ -140,14 +151,5 @@ const ChatroomPage = ({socket}) => {
 	)
 }
 
-const dateHeader = (curr, prev) => {
-	if (!curr || !prev) return <div></div>
-	const currDay = moment(curr.createdAt).format('ddd')
-	const prevDay = moment(prev.createdAt).format('ddd')
-	if (currDay !== prevDay) {
-		return <div>{currDay}</div>
-	} else {
-		return <div></div>
-	}
-}
+
 export default ChatroomPage

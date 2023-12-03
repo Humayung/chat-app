@@ -4,10 +4,13 @@ import userRoutes from './routes/user.js';
 import chatroomRoutes from './routes/chatroom.js';
 import messageRoutes from './routes/message.js';
 import associatedChatroomRoutes from './routes/associatedChatroom.js';
+import morgan from 'morgan';
 import * as errorHandlers from './handlers/error-handlers.js';
 
 const app = express();
 
+
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

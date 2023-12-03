@@ -6,5 +6,6 @@ const router = Router();
 
 router.post("/login", catchErrors(userController.login));
 router.post("/register", catchErrors(userController.register));
+router.get("/", catchErrors(userController.searchByUsername));
 
 export default router;

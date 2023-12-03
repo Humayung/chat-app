@@ -1,28 +1,20 @@
-import mongoose from 'mongoose'
 import helper from '../utils/helper.js'
-const AssociatedChatroom = mongoose.model('AssociatedChatroom')
+import repository from '../repository/repository.js'
+import expressAsyncHandler from 'express-async-handler'
 
-const getAssociatedChatrooms = async (req, res) => {
+const getAssociatedChatrooms = expressAsyncHandler(async (req, res) => {
 	const {authorization} = req.headers
 	const decodedToken = await helper.decodeToken(authorization)
 	const userId = decodedToken.id
-	try {
-		const chatrooms = await AssociatedChatroom.find({user: userId}).populate('chatroom', 'name')
-		res.json(chatrooms)
-	} catch (err) {
-		throw err.message
-	}
-}
+	const chatrooms = await repository.getAssociatedChatrooms(userId)
+	res.json(chatrooms)
+})
 
-const getAssociatedUsers = async (req, res) => {
+const getAssociatedUsers = expressAsyncHandler(async (req, res) => {
 	const {chatroomId} = req.params
 	if (!chatroomId) throw 'Chatroom ID is required'
-	try {
-		const users = await AssociatedChatroom.find({chatroom: chatroomId}).populate('user', 'name')
-		res.json(users)
-	} catch (err) {
-		throw err.message
-	}
-}
+	const users = await repository.getAssociatedChatroomUsers(chatroomId)
+	res.json(users)
+})
 
 export default {getAssociatedChatrooms, getAssociatedUsers}

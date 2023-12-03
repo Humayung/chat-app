@@ -6,6 +6,7 @@ import auth from '../middlewares/auth.js';
 const router = Router();
 
 router.get('/', auth, catchErrors(messageController.getMessages));
-router.post('/', auth, catchErrors(messageController.postMessage));
+router.post('/', auth, catchErrors(messageController.sendMessage));
+router.post('/send-private', auth, catchErrors(messageController.sendPrivateMessage));
 
 export default router;
